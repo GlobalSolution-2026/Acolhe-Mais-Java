@@ -1,16 +1,16 @@
 package br.com.fiap.AcolheMais.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Cidadao {
     private int idCidadao;
     private String nmCidadao, nrCns, nrCpf, dsSexo, nrCelular, nmContatoRecado, nrContatoRecado, nrCep, tpAcesso, dsSenhaHash;
-    private LocalDateTime dtNascimento;
+    private LocalDate dtNascimento;
 
     public Cidadao() {
     }
 
-    public Cidadao(String nmCidadao, String nrCns, String nrCpf, String dsSexo, String nrCelular, String nmContatoRecado, String nrContatoRecado, String nrCep, String tpAcesso, String dsSenhaHash, LocalDateTime dtNascimento) {
+    public Cidadao(String nmCidadao, String nrCns, String nrCpf, String dsSexo, String nrCelular, String nmContatoRecado, String nrContatoRecado, String nrCep, String tpAcesso, String dsSenhaHash, LocalDate dtNascimento) {
         this.nmCidadao = nmCidadao;
         this.nrCns = nrCns;
         this.nrCpf = nrCpf;
@@ -24,7 +24,7 @@ public class Cidadao {
         this.dtNascimento = dtNascimento;
     }
 
-    public Cidadao(int idCidadao, String nmCidadao, String nrCns, String nrCpf, String dsSexo, String nrCelular, String nmContatoRecado, String nrContatoRecado, String nrCep, String tpAcesso, String dsSenhaHash, LocalDateTime dtNascimento) {
+    public Cidadao(int idCidadao, String nmCidadao, String nrCns, String nrCpf, String dsSexo, String nrCelular, String nmContatoRecado, String nrContatoRecado, String nrCep, String tpAcesso, String dsSenhaHash, LocalDate dtNascimento) {
         this.idCidadao = idCidadao;
         this.nmCidadao = nmCidadao;
         this.nrCns = nrCns;
@@ -127,11 +127,11 @@ public class Cidadao {
         this.dsSenhaHash = dsSenhaHash;
     }
 
-    public LocalDateTime getDtNascimento() {
+    public LocalDate getDtNascimento() {
         return dtNascimento;
     }
 
-    public void setDtNascimento(LocalDateTime dtNascimento) {
+    public void setDtNascimento(LocalDate dtNascimento) {
         this.dtNascimento = dtNascimento;
     }
 }

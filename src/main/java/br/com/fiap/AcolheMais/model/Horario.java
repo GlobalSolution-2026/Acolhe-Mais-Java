@@ -3,24 +3,22 @@ package br.com.fiap.AcolheMais.model;
 import java.time.LocalDateTime;
 
 public class Horario {
-    private int idHorario, idUnidade, nrDuracaoMinuto, nrDuracaoSegundo;
+    private int idHorario, idUnidade, nrDuracaoMinuto;
     private LocalDateTime dtHorario;
 
     public Horario() {
     }
 
-    public Horario(int idUnidade, int nrDuracaoMinuto, int nrDuracaoSegundo, LocalDateTime dtHorario) {
+    public Horario(int idUnidade, int nrDuracaoMinuto, LocalDateTime dtHorario) {
         this.idUnidade = idUnidade;
         this.nrDuracaoMinuto = nrDuracaoMinuto;
-        this.nrDuracaoSegundo = nrDuracaoSegundo;
         this.dtHorario = dtHorario;
     }
 
-    public Horario(int idHorario, int idUnidade, int nrDuracaoMinuto, int nrDuracaoSegundo, LocalDateTime dtHorario) {
+    public Horario(int idHorario, int idUnidade, int nrDuracaoMinuto, LocalDateTime dtHorario) {
         this.idHorario = idHorario;
         this.idUnidade = idUnidade;
         this.nrDuracaoMinuto = nrDuracaoMinuto;
-        this.nrDuracaoSegundo = nrDuracaoSegundo;
         this.dtHorario = dtHorario;
     }
 
@@ -46,14 +44,6 @@ public class Horario {
 
     public void setNrDuracaoMinuto(int nrDuracaoMinuto) {
         this.nrDuracaoMinuto = nrDuracaoMinuto;
-    }
-
-    public int getNrDuracaoSegundo() {
-        return nrDuracaoSegundo;
-    }
-
-    public void setNrDuracaoSegundo(int nrDuracaoSegundo) {
-        this.nrDuracaoSegundo = nrDuracaoSegundo;
     }
 
     public LocalDateTime getDtHorario() {

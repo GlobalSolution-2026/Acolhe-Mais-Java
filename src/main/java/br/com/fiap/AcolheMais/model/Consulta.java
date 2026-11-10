@@ -33,4 +33,76 @@ public class Consulta {
         this.dsRiscoFalta = dsRiscoFalta;
         this.vlProbFalta = vlProbFalta;
     }
+
+    public int getIdConsulta() {
+        return idConsulta;
+    }
+
+    public void setIdConsulta(int idConsulta) {
+        this.idConsulta = idConsulta;
+    }
+
+    public int getIdHorario() {
+        return idHorario;
+    }
+
+    public void setIdHorario(int idHorario) {
+        this.idHorario = idHorario;
+    }
+
+    public int getIdCidadao() {
+        return idCidadao;
+    }
+
+    public void setIdCidadao(int idCidadao) {
+        this.idCidadao = idCidadao;
+    }
+
+    public int getIdOrientacao() {
+        return idOrientacao;
+    }
+
+    public void setIdOrientacao(int idOrientacao) {
+        this.idOrientacao = idOrientacao;
+    }
+
+    public LocalDateTime getDtAgendamento() {
+        return dtAgendamento;
+    }
+
+    public void setDtAgendamento(LocalDateTime dtAgendamento) {
+        this.dtAgendamento = dtAgendamento;
+    }
+
+    public LocalDateTime getDtConfirmacao() {
+        return dtConfirmacao;
+    }
+
+    public void setDtConfirmacao(LocalDateTime dtConfirmacao) {
+        this.dtConfirmacao = dtConfirmacao;
+    }
+
+    public String getDsStatus() {
+        return dsStatus;
+    }
+
+    public void setDsStatus(String dsStatus) {
+        this.dsStatus = dsStatus;
+    }
+
+    public String getDsRiscoFalta() {
+        return dsRiscoFalta;
+    }
+
+    public void setDsRiscoFalta(String dsRiscoFalta) {
+        this.dsRiscoFalta = dsRiscoFalta;
+    }
+
+    public double getVlProbFalta() {
+        return vlProbFalta;
+    }
+
+    public void setVlProbFalta(double vlProbFalta) {
+        this.vlProbFalta = vlProbFalta;
+    }
 }
