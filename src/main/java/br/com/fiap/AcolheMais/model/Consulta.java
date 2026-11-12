@@ -3,15 +3,16 @@ package br.com.fiap.AcolheMais.model;
 import java.time.LocalDateTime;
 
 public class Consulta {
-    private int idConsulta, idHorario, idCidadao, idOrientacao;
+    private int idConsulta, idHorario, idCidadao;
+    private Integer idOrientacao;
     private LocalDateTime dtAgendamento, dtConfirmacao;
     private String dsStatus, dsRiscoFalta;
-    private double vlProbFalta;
+    private Double vlProbFalta;
 
     public Consulta() {
     }
 
-    public Consulta(int idHorario, int idCidadao, int idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsStatus, String dsRiscoFalta, double vlProbFalta) {
+    public Consulta(int idHorario, int idCidadao, Integer idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsStatus, String dsRiscoFalta, Double vlProbFalta) {
         this.idHorario = idHorario;
         this.idCidadao = idCidadao;
         this.idOrientacao = idOrientacao;
@@ -22,7 +23,7 @@ public class Consulta {
         this.vlProbFalta = vlProbFalta;
     }
 
-    public Consulta(int idConsulta, int idHorario, int idCidadao, int idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsStatus, String dsRiscoFalta, double vlProbFalta) {
+    public Consulta(int idConsulta, int idHorario, int idCidadao, Integer idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsStatus, String dsRiscoFalta, Double vlProbFalta) {
         this.idConsulta = idConsulta;
         this.idHorario = idHorario;
         this.idCidadao = idCidadao;
@@ -58,11 +59,11 @@ public class Consulta {
         this.idCidadao = idCidadao;
     }
 
-    public int getIdOrientacao() {
+    public Integer getIdOrientacao() {
         return idOrientacao;
     }
 
-    public void setIdOrientacao(int idOrientacao) {
+    public void setIdOrientacao(Integer idOrientacao) {
         this.idOrientacao = idOrientacao;
     }
 
@@ -98,11 +99,11 @@ public class Consulta {
         this.dsRiscoFalta = dsRiscoFalta;
     }
 
-    public double getVlProbFalta() {
+    public Double getVlProbFalta() {
         return vlProbFalta;
     }
 
-    public void setVlProbFalta(double vlProbFalta) {
+    public void setVlProbFalta(Double vlProbFalta) {
         this.vlProbFalta = vlProbFalta;
     }
 }
