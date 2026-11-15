@@ -6,6 +6,7 @@ import br.com.fiap.AcolheMais.exception.HorarioIndisponivelException;
 import br.com.fiap.AcolheMais.exception.RecursoNaoEncontradoException;
 import br.com.fiap.AcolheMais.exception.RegraNegocioException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -34,5 +35,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErroDTO> tratarHorarioIndisponivel(HorarioIndisponivelException e){
         ErroDTO erro = new ErroDTO(409, e.getMessage());
         return ResponseEntity.status(409).body(erro);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErroDTO> tratarMetodoNaoSuportado(HttpRequestMethodNotSupportedException e){
+        ErroDTO erro = new ErroDTO(405, "Método HTTP não suportado nesta rota");
+        return ResponseEntity.status(405).body(erro);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErroDTO> tratarErroInesperado(Exception e){
+        ErroDTO erro = new ErroDTO(500, "Erro interno no servidor");
+        return ResponseEntity.status(500).body(erro);
     }
 }
