@@ -3,7 +3,7 @@ package br.com.fiap.AcolheMais.dto;
 import java.time.LocalDate;
 
 public class CidadaoEntradaDTO {
-    private String nmCidadao, nrCns, nrCpf, dsSexo, nrCelular, nmContatoRecado, nrContatoRecado, nrCep, tpAcesso;
+    private String nmCidadao, nrCns, nrCpf, dsSexo, nrCelular, nmContatoRecado, nrContatoRecado, nrCep, tpAcesso, senha;
     private LocalDate dtNascimento;
 
     public CidadaoEntradaDTO() {
@@ -87,5 +87,13 @@ public class CidadaoEntradaDTO {
 
     public void setTpAcesso(String tpAcesso) {
         this.tpAcesso = tpAcesso;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

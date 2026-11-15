@@ -9,8 +9,12 @@ import br.com.fiap.AcolheMais.model.Cidadao;
 import br.com.fiap.AcolheMais.repository.CidadaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HexFormat;
 import java.util.List;
 
 @Service
@@ -33,7 +37,20 @@ public class CidadaoService {
         cidadao.setNrContatoRecado(dto.getNrContatoRecado());
         cidadao.setNrCep(dto.getNrCep());
         cidadao.setTpAcesso(dto.getTpAcesso());
+        if (!vazio(dto.getSenha())) {
+            cidadao.setDsSenhaHash(gerarHash(dto.getSenha()));
+        }
         return cidadao;
+    }
+
+    private String gerarHash(String senha){
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = digest.digest(senha.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(bytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Erro ao gerar o hash da senha", e);
+        }
     }
 
     private CidadaoSaidaDTO paraSaida(Cidadao cidadao){
@@ -60,8 +77,11 @@ public class CidadaoService {
         if (!"F".equals(dto.getDsSexo()) && !"M".equals(dto.getDsSexo())) {
             throw new DadoInvalidoException("Sexo deve ser F ou M");
         }
-        if (!"GOVBR".equals(dto.getTpAcesso()) && !"BALCAO".equals(dto.getTpAcesso())) {
-            throw new DadoInvalidoException("Tipo de acesso deve ser GOVBR ou BALCAO");
+        if (!"SENHA".equals(dto.getTpAcesso()) && !"BALCAO".equals(dto.getTpAcesso())) {
+            throw new DadoInvalidoException("Tipo de acesso deve ser SENHA ou BALCAO");
+        }
+        if ("SENHA".equals(dto.getTpAcesso()) && vazio(dto.getSenha())) {
+            throw new DadoInvalidoException("A senha é obrigatória para acesso por senha");
         }
     }
 

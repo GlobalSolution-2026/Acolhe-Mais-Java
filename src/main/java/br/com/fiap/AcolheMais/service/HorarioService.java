@@ -45,6 +45,9 @@ public class HorarioService {
         if (dto.getNrDuracaoMinuto() <= 0) {
             throw new DadoInvalidoException("A duração deve ser maior que zero");
         }
+        if (dto.getNrDuracaoMinuto() > 240) {
+            throw new DadoInvalidoException("A duração deve ser de no máximo 240 minutos");
+        }
     }
 
     private void conferirUnidade(int idUnidade){

@@ -74,7 +74,7 @@ public class ConsultaService {
         return paraSaida(consulta);
     }
 
-    public ConsultaSaidaDTO criar(ConsultaEntradaDTO dto){
+    public synchronized ConsultaSaidaDTO criar(ConsultaEntradaDTO dto){
         validar(dto);
         conferirHorarioECidadao(dto);
         if (consultaRepository.horarioOcupado(dto.getIdHorario())) {
@@ -88,7 +88,7 @@ public class ConsultaService {
         return paraSaida(consultaRepository.inserir(consulta));
     }
 
-    public ConsultaSaidaDTO atualizar(int id, ConsultaEntradaDTO dto){
+    public synchronized ConsultaSaidaDTO atualizar(int id, ConsultaEntradaDTO dto){
         Consulta atual = consultaRepository.buscarPorId(id);
         if (atual == null) {
             throw new RecursoNaoEncontradoException("Consulta não encontrada");
