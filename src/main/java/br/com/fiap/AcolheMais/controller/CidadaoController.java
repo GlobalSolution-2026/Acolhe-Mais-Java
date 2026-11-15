@@ -1,0 +1,54 @@
+package br.com.fiap.AcolheMais.controller;
+
+import br.com.fiap.AcolheMais.dto.CidadaoEntradaDTO;
+import br.com.fiap.AcolheMais.dto.CidadaoSaidaDTO;
+import br.com.fiap.AcolheMais.service.CidadaoService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping("/cidadaos")
+public class CidadaoController {
+    private CidadaoService cidadaoService;
+
+    public CidadaoController(CidadaoService cidadaoService) {
+        this.cidadaoService = cidadaoService;
+    }
+
+    @PostMapping
+    public ResponseEntity<CidadaoSaidaDTO> criar(@RequestBody CidadaoEntradaDTO dto){
+        CidadaoSaidaDTO cidadao = cidadaoService.criar(dto);
+        return ResponseEntity.created(URI.create("/cidadaos/" + cidadao.getIdCidadao())).body(cidadao);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CidadaoSaidaDTO>> listar(){
+        return ResponseEntity.ok(cidadaoService.listar());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CidadaoSaidaDTO> buscarPorId(@PathVariable int id){
+        return ResponseEntity.ok(cidadaoService.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CidadaoSaidaDTO> atualizar(@PathVariable int id, @RequestBody CidadaoEntradaDTO dto){
+        return ResponseEntity.ok(cidadaoService.atualizar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> remover(@PathVariable int id){
+        cidadaoService.remover(id);
+        return ResponseEntity.noContent().build();
+    }
+}

@@ -4,7 +4,9 @@ import br.com.fiap.AcolheMais.dto.UnidadeEntradaDTO;
 import br.com.fiap.AcolheMais.dto.UnidadeSaidaDTO;
 import br.com.fiap.AcolheMais.exception.DadoInvalidoException;
 import br.com.fiap.AcolheMais.exception.RecursoNaoEncontradoException;
+import br.com.fiap.AcolheMais.exception.RegraNegocioException;
 import br.com.fiap.AcolheMais.model.Unidade;
+import br.com.fiap.AcolheMais.repository.HorarioRepository;
 import br.com.fiap.AcolheMais.repository.UnidadeRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,11 @@ import java.util.List;
 @Service
 public class UnidadeService {
     private UnidadeRepository unidadeRepository;
+    private HorarioRepository horarioRepository;
 
-    public UnidadeService(UnidadeRepository unidadeRepository) {
+    public UnidadeService(UnidadeRepository unidadeRepository, HorarioRepository horarioRepository) {
         this.unidadeRepository = unidadeRepository;
+        this.horarioRepository = horarioRepository;
     }
 
     private Unidade paraModel(UnidadeEntradaDTO dto){
@@ -78,6 +82,9 @@ public class UnidadeService {
 
     public void remover(int id){
         buscarPorId(id);
+        if (horarioRepository.unidadePossuiHorarios(id)) {
+            throw new RegraNegocioException("Não é possível remover uma unidade que possui horários");
+        }
         unidadeRepository.remover(id);
     }
 }
