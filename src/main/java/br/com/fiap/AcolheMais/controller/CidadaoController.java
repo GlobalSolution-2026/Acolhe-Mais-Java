@@ -1,8 +1,11 @@
 package br.com.fiap.AcolheMais.controller;
 
+import br.com.fiap.AcolheMais.dto.CidadaoAtualizacaoDTO;
 import br.com.fiap.AcolheMais.dto.CidadaoEntradaDTO;
 import br.com.fiap.AcolheMais.dto.CidadaoSaidaDTO;
+import br.com.fiap.AcolheMais.dto.LoginDTO;
 import br.com.fiap.AcolheMais.service.CidadaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
@@ -26,7 +30,7 @@ public class CidadaoController {
     }
 
     @PostMapping
-    public ResponseEntity<CidadaoSaidaDTO> criar(@RequestBody CidadaoEntradaDTO dto){
+    public ResponseEntity<CidadaoSaidaDTO> criar(@Valid @RequestBody CidadaoEntradaDTO dto){
         CidadaoSaidaDTO cidadao = cidadaoService.criar(dto);
         return ResponseEntity.created(URI.create("/cidadaos/" + cidadao.getIdCidadao())).body(cidadao);
     }
@@ -36,13 +40,23 @@ public class CidadaoController {
         return ResponseEntity.ok(cidadaoService.listar());
     }
 
+    @GetMapping(params = "cns")
+    public ResponseEntity<CidadaoSaidaDTO> buscarPorCns(@RequestParam String cns){
+        return ResponseEntity.ok(cidadaoService.buscarPorCns(cns));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<CidadaoSaidaDTO> login(@Valid @RequestBody LoginDTO dto){
+        return ResponseEntity.ok(cidadaoService.login(dto));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CidadaoSaidaDTO> buscarPorId(@PathVariable int id){
         return ResponseEntity.ok(cidadaoService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CidadaoSaidaDTO> atualizar(@PathVariable int id, @RequestBody CidadaoEntradaDTO dto){
+    public ResponseEntity<CidadaoSaidaDTO> atualizar(@PathVariable int id, @Valid @RequestBody CidadaoAtualizacaoDTO dto){
         return ResponseEntity.ok(cidadaoService.atualizar(id, dto));
     }
 

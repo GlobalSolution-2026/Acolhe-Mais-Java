@@ -1,7 +1,22 @@
 package br.com.fiap.AcolheMais.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 public class UnidadeEntradaDTO {
-    private String nmUnidade, tpUnidade, dsEndereco, nrCep, nrTelefone;
+    @NotBlank(message = "Nome da unidade é obrigatório")
+    private String nmUnidade;
+
+    @NotNull(message = "Tipo deve ser UBS ou UPA")
+    @Pattern(regexp = "UBS|UPA", message = "Tipo deve ser UBS ou UPA")
+    private String tpUnidade;
+
+    @NotBlank(message = "Endereço é obrigatório")
+    private String dsEndereco;
+
+    private String nrCep;
+    private String nrTelefone;
 
     public UnidadeEntradaDTO() {
     }

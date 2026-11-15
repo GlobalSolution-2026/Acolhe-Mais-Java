@@ -3,6 +3,7 @@ package br.com.fiap.AcolheMais.controller;
 import br.com.fiap.AcolheMais.dto.UnidadeEntradaDTO;
 import br.com.fiap.AcolheMais.dto.UnidadeSaidaDTO;
 import br.com.fiap.AcolheMais.service.UnidadeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class UnidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<UnidadeSaidaDTO> criar(@RequestBody UnidadeEntradaDTO dto){
+    public ResponseEntity<UnidadeSaidaDTO> criar(@Valid @RequestBody UnidadeEntradaDTO dto){
         UnidadeSaidaDTO unidade = unidadeService.criar(dto);
         return ResponseEntity.created(URI.create("/unidades/" + unidade.getIdUnidade())).body(unidade);
     }
@@ -42,7 +43,7 @@ public class UnidadeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UnidadeSaidaDTO> atualizar(@PathVariable int id, @RequestBody UnidadeEntradaDTO dto){
+    public ResponseEntity<UnidadeSaidaDTO> atualizar(@PathVariable int id, @Valid @RequestBody UnidadeEntradaDTO dto){
         return ResponseEntity.ok(unidadeService.atualizar(id, dto));
     }
 

@@ -2,7 +2,9 @@ package br.com.fiap.AcolheMais.controller;
 
 import br.com.fiap.AcolheMais.dto.ConsultaEntradaDTO;
 import br.com.fiap.AcolheMais.dto.ConsultaSaidaDTO;
+import br.com.fiap.AcolheMais.dto.StatusConsultaDTO;
 import br.com.fiap.AcolheMais.service.ConsultaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class ConsultaController {
     }
 
     @PostMapping
-    public ResponseEntity<ConsultaSaidaDTO> criar(@RequestBody ConsultaEntradaDTO dto){
+    public ResponseEntity<ConsultaSaidaDTO> criar(@Valid @RequestBody ConsultaEntradaDTO dto){
         ConsultaSaidaDTO consulta = consultaService.criar(dto);
         return ResponseEntity.created(URI.create("/consultas/" + consulta.getIdConsulta())).body(consulta);
     }
@@ -42,8 +44,13 @@ public class ConsultaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConsultaSaidaDTO> atualizar(@PathVariable int id, @RequestBody ConsultaEntradaDTO dto){
+    public ResponseEntity<ConsultaSaidaDTO> atualizar(@PathVariable int id, @Valid @RequestBody ConsultaEntradaDTO dto){
         return ResponseEntity.ok(consultaService.atualizar(id, dto));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<ConsultaSaidaDTO> mudarStatus(@PathVariable int id, @Valid @RequestBody StatusConsultaDTO dto){
+        return ResponseEntity.ok(consultaService.mudarStatus(id, dto));
     }
 
     @DeleteMapping("/{id}")

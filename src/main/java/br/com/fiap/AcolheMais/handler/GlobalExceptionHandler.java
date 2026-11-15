@@ -1,6 +1,7 @@
 package br.com.fiap.AcolheMais.handler;
 
 import br.com.fiap.AcolheMais.dto.ErroDTO;
+import br.com.fiap.AcolheMais.exception.CredenciaisInvalidasException;
 import br.com.fiap.AcolheMais.exception.DadoInvalidoException;
 import br.com.fiap.AcolheMais.exception.HorarioIndisponivelException;
 import br.com.fiap.AcolheMais.exception.RecursoNaoEncontradoException;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -29,6 +32,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErroDTO> tratarDadoInvalido(DadoInvalidoException e){
         ErroDTO erro = new ErroDTO(400, e.getMessage());
         return ResponseEntity.status(400).body(erro);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErroDTO> tratarValidacao(MethodArgumentNotValidException e){
+        String mensagem = "Dados inválidos";
+        FieldError campo = e.getBindingResult().getFieldError();
+        if (campo != null) {
+            mensagem = campo.getDefaultMessage();
+        }
+        ErroDTO erro = new ErroDTO(400, mensagem);
+        return ResponseEntity.status(400).body(erro);
+    }
+
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    public ResponseEntity<ErroDTO> tratarLogin(CredenciaisInvalidasException e){
+        ErroDTO erro = new ErroDTO(401, e.getMessage());
+        return ResponseEntity.status(401).body(erro);
     }
 
     @ExceptionHandler(RegraNegocioException.class)
@@ -86,7 +106,7 @@ public class GlobalExceptionHandler {
                 ErroDTO erro = new ErroDTO(409, "Já existe um registro com esses dados");
                 return ResponseEntity.status(409).body(erro);
             }
-            if (codigo == 12899 || codigo == 1438 || codigo == 2290) {
+            if (codigo == 12899 || codigo == 1438 || codigo == 2290 || codigo == 2291) {
                 ErroDTO erro = new ErroDTO(400, "Algum campo tem tamanho ou valor fora do permitido");
                 return ResponseEntity.status(400).body(erro);
             }

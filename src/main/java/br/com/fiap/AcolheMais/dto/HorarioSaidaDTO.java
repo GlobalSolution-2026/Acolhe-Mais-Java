@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class HorarioSaidaDTO {
     private int idHorario, idUnidade, nrDuracaoMinuto;
     private LocalDateTime dtHorario;
+    private boolean flOcupado;
 
     public HorarioSaidaDTO() {
     }
@@ -46,5 +47,13 @@ public class HorarioSaidaDTO {
 
     public void setNrDuracaoMinuto(int nrDuracaoMinuto) {
         this.nrDuracaoMinuto = nrDuracaoMinuto;
+    }
+
+    public boolean isFlOcupado() {
+        return flOcupado;
+    }
+
+    public void setFlOcupado(boolean flOcupado) {
+        this.flOcupado = flOcupado;
     }
 }

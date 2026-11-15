@@ -2,6 +2,7 @@ package br.com.fiap.AcolheMais.service;
 
 import br.com.fiap.AcolheMais.dto.ConsultaEntradaDTO;
 import br.com.fiap.AcolheMais.dto.ConsultaSaidaDTO;
+import br.com.fiap.AcolheMais.dto.StatusConsultaDTO;
 import br.com.fiap.AcolheMais.exception.DadoInvalidoException;
 import br.com.fiap.AcolheMais.exception.HorarioIndisponivelException;
 import br.com.fiap.AcolheMais.exception.RecursoNaoEncontradoException;
@@ -37,16 +38,21 @@ public class ConsultaService {
         Horario horario = horarioRepository.buscarPorId(consulta.getIdHorario());
         Unidade unidade = unidadeRepository.buscarPorId(horario.getIdUnidade());
         Cidadao cidadao = cidadaoRepository.buscarPorId(consulta.getIdCidadao());
-        return new ConsultaSaidaDTO(consulta.getIdConsulta(), unidade.getNmUnidade(), horario.getDtHorario(), cidadao.getNmCidadao(), consulta.getDsStatus());
-    }
-
-    private void validar(ConsultaEntradaDTO dto){
-        if (dto.getIdHorario() <= 0) {
-            throw new DadoInvalidoException("O horário é obrigatório");
-        }
-        if (dto.getIdCidadao() <= 0) {
-            throw new DadoInvalidoException("O cidadão é obrigatório");
-        }
+        ConsultaSaidaDTO saida = new ConsultaSaidaDTO();
+        saida.setIdConsulta(consulta.getIdConsulta());
+        saida.setIdCidadao(consulta.getIdCidadao());
+        saida.setIdHorario(consulta.getIdHorario());
+        saida.setNmUnidade(unidade.getNmUnidade());
+        saida.setDtHorario(horario.getDtHorario());
+        saida.setNmCidadao(cidadao.getNmCidadao());
+        saida.setDtAgendamento(consulta.getDtAgendamento());
+        saida.setDtConfirmacao(consulta.getDtConfirmacao());
+        saida.setDsCanalConfirmacao(consulta.getDsCanalConfirmacao());
+        saida.setDsStatus(consulta.getDsStatus());
+        saida.setVlProbFalta(consulta.getVlProbFalta());
+        saida.setDsRiscoFalta(consulta.getDsRiscoFalta());
+        saida.setIdOrientacao(consulta.getIdOrientacao());
+        return saida;
     }
 
     private void conferirHorarioECidadao(ConsultaEntradaDTO dto){
@@ -56,6 +62,10 @@ public class ConsultaService {
         if (cidadaoRepository.buscarPorId(dto.getIdCidadao()) == null) {
             throw new RecursoNaoEncontradoException("Cidadão não encontrado");
         }
+    }
+
+    private boolean statusAtivo(String status){
+        return "AGENDADA".equals(status) || "CONFIRMADA".equals(status);
     }
 
     public List<ConsultaSaidaDTO> listar(){
@@ -75,7 +85,6 @@ public class ConsultaService {
     }
 
     public synchronized ConsultaSaidaDTO criar(ConsultaEntradaDTO dto){
-        validar(dto);
         conferirHorarioECidadao(dto);
         if (consultaRepository.horarioOcupado(dto.getIdHorario())) {
             throw new HorarioIndisponivelException("Horário já ocupado por outra consulta");
@@ -85,6 +94,9 @@ public class ConsultaService {
         consulta.setIdCidadao(dto.getIdCidadao());
         consulta.setDsStatus("AGENDADA");
         consulta.setDtAgendamento(LocalDateTime.now());
+        consulta.setVlProbFalta(dto.getVlProbFalta());
+        consulta.setDsRiscoFalta(dto.getDsRiscoFalta());
+        consulta.setIdOrientacao(dto.getIdOrientacao());
         return paraSaida(consultaRepository.inserir(consulta));
     }
 
@@ -93,7 +105,6 @@ public class ConsultaService {
         if (atual == null) {
             throw new RecursoNaoEncontradoException("Consulta não encontrada");
         }
-        validar(dto);
         conferirHorarioECidadao(dto);
         if (dto.getIdHorario() != atual.getIdHorario() && consultaRepository.horarioOcupado(dto.getIdHorario())) {
             throw new HorarioIndisponivelException("Horário já ocupado por outra consulta");
@@ -102,6 +113,31 @@ public class ConsultaService {
         atual.setIdCidadao(dto.getIdCidadao());
         consultaRepository.atualizar(atual);
         return paraSaida(atual);
+    }
+
+    public synchronized ConsultaSaidaDTO mudarStatus(int id, StatusConsultaDTO dto){
+        Consulta consulta = consultaRepository.buscarPorId(id);
+        if (consulta == null) {
+            throw new RecursoNaoEncontradoException("Consulta não encontrada");
+        }
+        String novoStatus = dto.getDsStatus();
+        if (!statusAtivo(consulta.getDsStatus()) && statusAtivo(novoStatus) && consultaRepository.horarioOcupado(consulta.getIdHorario())) {
+            throw new HorarioIndisponivelException("Horário já ocupado por outra consulta");
+        }
+        if ("CONFIRMADA".equals(novoStatus)) {
+            if (dto.getDsCanalConfirmacao() == null) {
+                throw new DadoInvalidoException("O canal de confirmação é obrigatório para confirmar a consulta");
+            }
+            consulta.setDtConfirmacao(LocalDateTime.now());
+            consulta.setDsCanalConfirmacao(dto.getDsCanalConfirmacao());
+        }
+        if ("AGENDADA".equals(novoStatus)) {
+            consulta.setDtConfirmacao(null);
+            consulta.setDsCanalConfirmacao(null);
+        }
+        consulta.setDsStatus(novoStatus);
+        consultaRepository.atualizar(consulta);
+        return paraSaida(consulta);
     }
 
     public void remover(int id){

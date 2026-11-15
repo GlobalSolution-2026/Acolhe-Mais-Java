@@ -2,7 +2,6 @@ package br.com.fiap.AcolheMais.service;
 
 import br.com.fiap.AcolheMais.dto.UnidadeEntradaDTO;
 import br.com.fiap.AcolheMais.dto.UnidadeSaidaDTO;
-import br.com.fiap.AcolheMais.exception.DadoInvalidoException;
 import br.com.fiap.AcolheMais.exception.RecursoNaoEncontradoException;
 import br.com.fiap.AcolheMais.exception.RegraNegocioException;
 import br.com.fiap.AcolheMais.model.Unidade;
@@ -37,18 +36,6 @@ public class UnidadeService {
         return new UnidadeSaidaDTO(unidade.getNmUnidade(), unidade.getTpUnidade(), unidade.getDsEndereco(), unidade.getNrCep(), unidade.getNrTelefone(), unidade.getIdUnidade());
     }
 
-    private void validar(UnidadeEntradaDTO dto){
-        if (dto.getNmUnidade() == null || dto.getNmUnidade().isBlank()) {
-            throw new DadoInvalidoException("Nome da unidade é obrigatório");
-        }
-        if (dto.getDsEndereco() == null || dto.getDsEndereco().isBlank()) {
-            throw new DadoInvalidoException("Endereço é obrigatório");
-        }
-        if (!"UBS".equals(dto.getTpUnidade()) && !"UPA".equals(dto.getTpUnidade())) {
-            throw new DadoInvalidoException("Tipo deve ser UBS ou UPA");
-        }
-    }
-
     public List<UnidadeSaidaDTO> listar(){
         List<UnidadeSaidaDTO> lista = new ArrayList<>();
         for (Unidade unidade : unidadeRepository.listar()) {
@@ -66,14 +53,12 @@ public class UnidadeService {
     }
 
     public UnidadeSaidaDTO criar(UnidadeEntradaDTO dto){
-        validar(dto);
         Unidade unidade = unidadeRepository.inserir(paraModel(dto));
         return paraSaida(unidade);
     }
 
     public UnidadeSaidaDTO atualizar(int id, UnidadeEntradaDTO dto){
         buscarPorId(id);
-        validar(dto);
         Unidade unidade = paraModel(dto);
         unidade.setIdUnidade(id);
         unidadeRepository.atualizar(unidade);

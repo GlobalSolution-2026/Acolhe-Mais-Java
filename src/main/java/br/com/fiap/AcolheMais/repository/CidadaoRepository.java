@@ -108,6 +108,33 @@ public class CidadaoRepository {
         }
     }
 
+    public Cidadao buscarPorCns(String nrCns){
+        try (Connection conexao = dataSource.getConnection()){
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM ACM_CIDADAO WHERE nr_cns = ?");
+            preparedStatement.setString(1, nrCns);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                Cidadao cidadao = new Cidadao();
+                cidadao.setIdCidadao(resultSet.getInt("id_cidadao"));
+                cidadao.setNmCidadao(resultSet.getString("nm_cidadao"));
+                cidadao.setNrCns(resultSet.getString("nr_cns"));
+                cidadao.setNrCpf(resultSet.getString("nr_cpf"));
+                cidadao.setDtNascimento(resultSet.getDate("dt_nascimento").toLocalDate());
+                cidadao.setDsSexo(resultSet.getString("ds_sexo"));
+                cidadao.setNrCelular(resultSet.getString("nr_celular"));
+                cidadao.setNmContatoRecado(resultSet.getString("nm_contato_recado"));
+                cidadao.setNrContatoRecado(resultSet.getString("nr_contato_recado"));
+                cidadao.setNrCep(resultSet.getString("nr_cep"));
+                cidadao.setTpAcesso(resultSet.getString("tp_acesso"));
+                cidadao.setDsSenhaHash(resultSet.getString("ds_senha_hash"));
+                return cidadao;
+            }
+            return null;
+        }catch (SQLException e){
+            throw new RuntimeException("Erro ao buscar cidadão pelo CNS", e);
+        }
+    }
+
     public boolean atualizar(Cidadao cidadao){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_CIDADAO SET nm_cidadao=?, nr_cns=?, nr_cpf=?, dt_nascimento=?, ds_sexo=?, nr_celular=?, nm_contato_recado=?, nr_contato_recado=?, nr_cep=?, tp_acesso=?, ds_senha_hash=? WHERE id_cidadao=?");

@@ -2,15 +2,14 @@ package br.com.fiap.AcolheMais.service;
 
 import br.com.fiap.AcolheMais.dto.HorarioEntradaDTO;
 import br.com.fiap.AcolheMais.dto.HorarioSaidaDTO;
-import br.com.fiap.AcolheMais.exception.DadoInvalidoException;
 import br.com.fiap.AcolheMais.exception.RecursoNaoEncontradoException;
 import br.com.fiap.AcolheMais.exception.RegraNegocioException;
 import br.com.fiap.AcolheMais.model.Horario;
+import br.com.fiap.AcolheMais.repository.ConsultaRepository;
 import br.com.fiap.AcolheMais.repository.HorarioRepository;
 import br.com.fiap.AcolheMais.repository.UnidadeRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,12 @@ import java.util.List;
 public class HorarioService {
     private HorarioRepository horarioRepository;
     private UnidadeRepository unidadeRepository;
+    private ConsultaRepository consultaRepository;
 
-    public HorarioService(HorarioRepository horarioRepository, UnidadeRepository unidadeRepository) {
+    public HorarioService(HorarioRepository horarioRepository, UnidadeRepository unidadeRepository, ConsultaRepository consultaRepository) {
         this.horarioRepository = horarioRepository;
         this.unidadeRepository = unidadeRepository;
+        this.consultaRepository = consultaRepository;
     }
 
     private Horario paraModel(HorarioEntradaDTO dto){
@@ -32,22 +33,9 @@ public class HorarioService {
     }
 
     private HorarioSaidaDTO paraSaida(Horario horario){
-        return new HorarioSaidaDTO(horario.getIdHorario(), horario.getIdUnidade(), horario.getDtHorario(), horario.getNrDuracaoMinuto());
-    }
-
-    private void validar(HorarioEntradaDTO dto){
-        if (dto.getDtHorario() == null) {
-            throw new DadoInvalidoException("Data e hora são obrigatórias");
-        }
-        if (dto.getDtHorario().isBefore(LocalDateTime.now())) {
-            throw new DadoInvalidoException("O horário deve estar no futuro");
-        }
-        if (dto.getNrDuracaoMinuto() <= 0) {
-            throw new DadoInvalidoException("A duração deve ser maior que zero");
-        }
-        if (dto.getNrDuracaoMinuto() > 240) {
-            throw new DadoInvalidoException("A duração deve ser de no máximo 240 minutos");
-        }
+        HorarioSaidaDTO saida = new HorarioSaidaDTO(horario.getIdHorario(), horario.getIdUnidade(), horario.getDtHorario(), horario.getNrDuracaoMinuto());
+        saida.setFlOcupado(consultaRepository.horarioOcupado(horario.getIdHorario()));
+        return saida;
     }
 
     private void conferirUnidade(int idUnidade){
@@ -67,7 +55,6 @@ public class HorarioService {
 
     public HorarioSaidaDTO criar(int idUnidade, HorarioEntradaDTO dto){
         conferirUnidade(idUnidade);
-        validar(dto);
         if (horarioRepository.existeHorario(idUnidade, dto.getDtHorario())) {
             throw new RegraNegocioException("Já existe um horário igual nesta unidade");
         }
@@ -89,7 +76,6 @@ public class HorarioService {
         if (atual == null) {
             throw new RecursoNaoEncontradoException("Horário não encontrado");
         }
-        validar(dto);
         if (!dto.getDtHorario().equals(atual.getDtHorario()) && horarioRepository.existeHorario(atual.getIdUnidade(), dto.getDtHorario())) {
             throw new RegraNegocioException("Já existe um horário igual nesta unidade");
         }

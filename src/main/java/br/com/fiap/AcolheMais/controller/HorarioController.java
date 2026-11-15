@@ -3,6 +3,7 @@ package br.com.fiap.AcolheMais.controller;
 import br.com.fiap.AcolheMais.dto.HorarioEntradaDTO;
 import br.com.fiap.AcolheMais.dto.HorarioSaidaDTO;
 import br.com.fiap.AcolheMais.service.HorarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class HorarioController {
     }
 
     @PostMapping("/unidades/{idUnidade}/horarios")
-    public ResponseEntity<HorarioSaidaDTO> criar(@PathVariable int idUnidade, @RequestBody HorarioEntradaDTO dto){
+    public ResponseEntity<HorarioSaidaDTO> criar(@PathVariable int idUnidade, @Valid @RequestBody HorarioEntradaDTO dto){
         HorarioSaidaDTO horario = horarioService.criar(idUnidade, dto);
         return ResponseEntity.created(URI.create("/horarios/" + horario.getIdHorario())).body(horario);
     }
@@ -40,7 +41,7 @@ public class HorarioController {
     }
 
     @PutMapping("/horarios/{id}")
-    public ResponseEntity<HorarioSaidaDTO> atualizar(@PathVariable int id, @RequestBody HorarioEntradaDTO dto){
+    public ResponseEntity<HorarioSaidaDTO> atualizar(@PathVariable int id, @Valid @RequestBody HorarioEntradaDTO dto){
         return ResponseEntity.ok(horarioService.atualizar(id, dto));
     }
 
