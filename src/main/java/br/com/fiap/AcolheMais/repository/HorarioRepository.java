@@ -24,7 +24,7 @@ public class HorarioRepository {
         try (Connection conexao = dataSource.getConnection()){
 
             // pega o proximo id da sequence
-            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT SQ_ACM_HORARIO.NEXTVAL FROM DUAL");
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT SEQ_ACM_HORARIO.NEXTVAL FROM DUAL");
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             int id = resultSet.getInt(1);

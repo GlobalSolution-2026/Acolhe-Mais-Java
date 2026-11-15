@@ -24,12 +24,12 @@ public class ConsultaRepository {
     public Consulta inserir(Consulta consulta){
         try (Connection conexao = dataSource.getConnection()){
 
-            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT SQ_ACM_CONSULTA.NEXTVAL FROM DUAL");
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT SEQ_ACM_CONSULTA.NEXTVAL FROM DUAL");
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             int id = resultSet.getInt(1);
 
-            String sql = "INSERT INTO ACM_CONSULTA (id_consulta, id_horario, id_cidadao, id_orientacao, dt_agendamento, dt_confirmacao, ds_status, vl_prob_falta, ds_risco_falta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO ACM_CONSULTA (id_consulta, id_horario, id_cidadao, id_orientacao, dt_agendamento, dt_confirmacao, ds_canal_confirmacao, ds_status, vl_prob_falta, ds_risco_falta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement1 = conexao.prepareStatement(sql);
 
             preparedStatement1.setInt(1, id);
@@ -50,15 +50,16 @@ public class ConsultaRepository {
                 preparedStatement1.setTimestamp(6, Timestamp.valueOf(consulta.getDtConfirmacao()));
             }
 
-            preparedStatement1.setString(7, consulta.getDsStatus());
+            preparedStatement1.setString(7, consulta.getDsCanalConfirmacao());
+            preparedStatement1.setString(8, consulta.getDsStatus());
 
             if (consulta.getVlProbFalta() == null) {
-                preparedStatement1.setNull(8, Types.DOUBLE);
+                preparedStatement1.setNull(9, Types.DOUBLE);
             } else {
-                preparedStatement1.setDouble(8, consulta.getVlProbFalta());
+                preparedStatement1.setDouble(9, consulta.getVlProbFalta());
             }
 
-            preparedStatement1.setString(9, consulta.getDsRiscoFalta());
+            preparedStatement1.setString(10, consulta.getDsRiscoFalta());
 
             preparedStatement1.executeUpdate();
 
@@ -93,6 +94,7 @@ public class ConsultaRepository {
                     consulta.setDtConfirmacao(dtConfirmacao.toLocalDateTime());
                 }
 
+                consulta.setDsCanalConfirmacao(resultSet.getString("ds_canal_confirmacao"));
                 consulta.setDsStatus(resultSet.getString("ds_status"));
 
                 double vlProbFalta = resultSet.getDouble("vl_prob_falta");
@@ -132,6 +134,7 @@ public class ConsultaRepository {
                     consulta.setDtConfirmacao(dtConfirmacao.toLocalDateTime());
                 }
 
+                consulta.setDsCanalConfirmacao(resultSet.getString("ds_canal_confirmacao"));
                 consulta.setDsStatus(resultSet.getString("ds_status"));
 
                 double vlProbFalta = resultSet.getDouble("vl_prob_falta");
@@ -150,7 +153,7 @@ public class ConsultaRepository {
 
     public boolean atualizar(Consulta consulta){
         try (Connection conexao = dataSource.getConnection()){
-            PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_CONSULTA SET id_horario=?, id_cidadao=?, id_orientacao=?, dt_agendamento=?, dt_confirmacao=?, ds_status=?, vl_prob_falta=?, ds_risco_falta=? WHERE id_consulta=?");
+            PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_CONSULTA SET id_horario=?, id_cidadao=?, id_orientacao=?, dt_agendamento=?, dt_confirmacao=?, ds_canal_confirmacao=?, ds_status=?, vl_prob_falta=?, ds_risco_falta=? WHERE id_consulta=?");
 
             preparedStatement.setInt(1, consulta.getIdHorario());
             preparedStatement.setInt(2, consulta.getIdCidadao());
@@ -169,16 +172,17 @@ public class ConsultaRepository {
                 preparedStatement.setTimestamp(5, Timestamp.valueOf(consulta.getDtConfirmacao()));
             }
 
-            preparedStatement.setString(6, consulta.getDsStatus());
+            preparedStatement.setString(6, consulta.getDsCanalConfirmacao());
+            preparedStatement.setString(7, consulta.getDsStatus());
 
             if (consulta.getVlProbFalta() == null) {
-                preparedStatement.setNull(7, Types.DOUBLE);
+                preparedStatement.setNull(8, Types.DOUBLE);
             } else {
-                preparedStatement.setDouble(7, consulta.getVlProbFalta());
+                preparedStatement.setDouble(8, consulta.getVlProbFalta());
             }
 
-            preparedStatement.setString(8, consulta.getDsRiscoFalta());
-            preparedStatement.setInt(9, consulta.getIdConsulta());
+            preparedStatement.setString(9, consulta.getDsRiscoFalta());
+            preparedStatement.setInt(10, consulta.getIdConsulta());
             return preparedStatement.executeUpdate() > 0;
         }catch (SQLException e){
             throw new RuntimeException("Erro ao atualizar consulta", e);

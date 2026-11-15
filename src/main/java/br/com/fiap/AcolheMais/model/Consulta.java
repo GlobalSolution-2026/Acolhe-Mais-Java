@@ -6,30 +6,32 @@ public class Consulta {
     private int idConsulta, idHorario, idCidadao;
     private Integer idOrientacao;
     private LocalDateTime dtAgendamento, dtConfirmacao;
-    private String dsStatus, dsRiscoFalta;
+    private String dsCanalConfirmacao, dsStatus, dsRiscoFalta;
     private Double vlProbFalta;
 
     public Consulta() {
     }
 
-    public Consulta(int idHorario, int idCidadao, Integer idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsStatus, String dsRiscoFalta, Double vlProbFalta) {
+    public Consulta(int idHorario, int idCidadao, Integer idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsCanalConfirmacao, String dsStatus, String dsRiscoFalta, Double vlProbFalta) {
         this.idHorario = idHorario;
         this.idCidadao = idCidadao;
         this.idOrientacao = idOrientacao;
         this.dtAgendamento = dtAgendamento;
         this.dtConfirmacao = dtConfirmacao;
+        this.dsCanalConfirmacao = dsCanalConfirmacao;
         this.dsStatus = dsStatus;
         this.dsRiscoFalta = dsRiscoFalta;
         this.vlProbFalta = vlProbFalta;
     }
 
-    public Consulta(int idConsulta, int idHorario, int idCidadao, Integer idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsStatus, String dsRiscoFalta, Double vlProbFalta) {
+    public Consulta(int idConsulta, int idHorario, int idCidadao, Integer idOrientacao, LocalDateTime dtAgendamento, LocalDateTime dtConfirmacao, String dsCanalConfirmacao, String dsStatus, String dsRiscoFalta, Double vlProbFalta) {
         this.idConsulta = idConsulta;
         this.idHorario = idHorario;
         this.idCidadao = idCidadao;
         this.idOrientacao = idOrientacao;
         this.dtAgendamento = dtAgendamento;
         this.dtConfirmacao = dtConfirmacao;
+        this.dsCanalConfirmacao = dsCanalConfirmacao;
         this.dsStatus = dsStatus;
         this.dsRiscoFalta = dsRiscoFalta;
         this.vlProbFalta = vlProbFalta;
@@ -81,6 +83,14 @@ public class Consulta {
 
     public void setDtConfirmacao(LocalDateTime dtConfirmacao) {
         this.dtConfirmacao = dtConfirmacao;
+    }
+
+    public String getDsCanalConfirmacao() {
+        return dsCanalConfirmacao;
+    }
+
+    public void setDsCanalConfirmacao(String dsCanalConfirmacao) {
+        this.dsCanalConfirmacao = dsCanalConfirmacao;
     }
 
     public String getDsStatus() {

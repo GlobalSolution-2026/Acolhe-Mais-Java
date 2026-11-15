@@ -23,7 +23,7 @@ public class CidadaoRepository {
     public Cidadao inserir(Cidadao cidadao){
         try (Connection conexao = dataSource.getConnection()){
 
-            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT SQ_ACM_CIDADAO.NEXTVAL FROM DUAL");
+            PreparedStatement preparedStatement = conexao.prepareStatement("SELECT SEQ_ACM_CIDADAO.NEXTVAL FROM DUAL");
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             int id = resultSet.getInt(1);
