@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Controller REST das rotas de /consultas: CRUD e troca de status da consulta.
+ *
+ * @author Nicolas Martins
+ */
 @RestController
 @RequestMapping("/consultas")
 public class ConsultaController {

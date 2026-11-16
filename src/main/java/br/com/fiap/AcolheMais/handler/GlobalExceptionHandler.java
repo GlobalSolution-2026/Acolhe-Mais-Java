@@ -19,6 +19,11 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.sql.SQLException;
 
+/**
+ * Handler global que traduz as exceptions da API em respostas HTTP no formato ErroDTO.
+ *
+ * @author Nicolas Martins
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

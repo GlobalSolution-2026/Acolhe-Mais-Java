@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Modelo que espelha a tabela ACM_HORARIO do banco.
+ *
+ * @author Nicolas Martins
+ */
 public class Horario {
     private int idHorario, idUnidade, nrDuracaoMinuto;
     private LocalDateTime dtHorario;

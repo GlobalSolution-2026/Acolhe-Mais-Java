@@ -1,5 +1,10 @@
 package br.com.fiap.AcolheMais.model;
 
+/**
+ * Modelo que espelha a tabela ACM_UNIDADE do banco.
+ *
+ * @author Nicolas Martins
+ */
 public class Unidade {
     private static final String REGEX_CEP = "\\d{8}";
     private static final String REGEX_TELEFONE = "\\d{10,11}";

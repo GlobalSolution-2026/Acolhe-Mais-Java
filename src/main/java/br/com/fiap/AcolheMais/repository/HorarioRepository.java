@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository do horário, com o SQL em JDBC sobre ACM_HORARIO.
+ *
+ * @author Nicolas Martins
+ */
 @Repository
 public class HorarioRepository {
     private DataSource dataSource;

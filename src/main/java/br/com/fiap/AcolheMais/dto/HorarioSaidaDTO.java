@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO de saída do horário, com a flag que indica se está ocupado.
+ *
+ * @author Nicolas Martins
+ */
 public class HorarioSaidaDTO {
     private int idHorario, idUnidade, nrDuracaoMinuto;
     private LocalDateTime dtHorario;

@@ -3,6 +3,11 @@ package br.com.fiap.AcolheMais.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * DTO de entrada da troca de status da consulta, com o canal de confirmação.
+ *
+ * @author Nicolas Martins
+ */
 public class StatusConsultaDTO {
     @NotNull(message = "O status é obrigatório")
     @Pattern(regexp = "AGENDADA|CONFIRMADA|LIBERADA|REALIZADA|FALTA", message = "Status inválido")

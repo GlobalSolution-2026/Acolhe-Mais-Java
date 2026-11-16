@@ -12,6 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository do cidadão, com o SQL em JDBC sobre ACM_CIDADAO, sem regra de negócio.
+ *
+ * @author Nicolas Martins
+ */
 @Repository
 public class CidadaoRepository {
     private DataSource dataSource;

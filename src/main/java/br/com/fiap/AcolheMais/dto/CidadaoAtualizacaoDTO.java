@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.dto;
 
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * DTO de entrada da edição do cidadão, aceita só contato e CEP.
+ *
+ * @author Nicolas Martins
+ */
 public class CidadaoAtualizacaoDTO {
     @Pattern(regexp = "\\d{10,11}", message = "Informe o celular com DDD (só números)")
     private String nrCelular;

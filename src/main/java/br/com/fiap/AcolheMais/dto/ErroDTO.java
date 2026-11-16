@@ -1,5 +1,10 @@
 package br.com.fiap.AcolheMais.dto;
 
+/**
+ * DTO padrão de erro da API, com o status HTTP e a mensagem lida pelo front.
+ *
+ * @author Nicolas Martins
+ */
 public class ErroDTO {
     private int status;
     private String mensagem;

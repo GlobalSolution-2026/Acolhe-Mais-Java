@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Controller REST das rotas de /cidadaos: CRUD, login e busca por Cartão SUS.
+ *
+ * @author Nicolas Martins
+ */
 @RestController
 @RequestMapping("/cidadaos")
 public class CidadaoController {

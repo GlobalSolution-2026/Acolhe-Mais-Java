@@ -4,6 +4,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Configuração de CORS que libera o front para chamar a API.
+ *
+ * @author Nicolas Martins
+ */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
     @Override

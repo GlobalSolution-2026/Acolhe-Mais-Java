@@ -11,6 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository da unidade, com o SQL em JDBC sobre ACM_UNIDADE.
+ *
+ * @author Nicolas Martins
+ */
 @Repository
 public class UnidadeRepository {
     private DataSource dataSource;

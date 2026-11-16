@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
 
+/**
+ * Service do cidadão: regras de CNS e CPF únicos, hash da senha, login e CRUD.
+ *
+ * @author Nicolas Martins
+ */
 @Service
 public class CidadaoService {
     private CidadaoRepository cidadaoRepository;

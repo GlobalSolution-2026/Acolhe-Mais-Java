@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service da unidade: CRUD e bloqueio da remoção de unidade que tem horários.
+ *
+ * @author Nicolas Martins
+ */
 @Service
 public class UnidadeService {
     private UnidadeRepository unidadeRepository;

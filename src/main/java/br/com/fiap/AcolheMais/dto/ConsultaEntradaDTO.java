@@ -5,6 +5,11 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
+/**
+ * DTO de entrada para agendar ou alterar uma consulta (horário, cidadão e risco de falta).
+ *
+ * @author Nicolas Martins
+ */
 public class ConsultaEntradaDTO {
     @Positive(message = "O horário é obrigatório")
     private int idHorario;

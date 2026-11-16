@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.dto;
 
 import java.time.LocalDate;
 
+/**
+ * DTO de saída do cidadão, devolvido pela API sem a senha.
+ *
+ * @author Nicolas Martins
+ */
 public class CidadaoSaidaDTO {
     private int idCidadao;
     private String nmCidadao, nrCns, nrCpf, dsSexo, nrCelular, nmContatoRecado, nrContatoRecado, nrCep, tpAcesso;

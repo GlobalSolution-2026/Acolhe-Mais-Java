@@ -20,6 +20,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service da consulta: regra do horário ocupado, mudança de status e CRUD.
+ *
+ * @author Nicolas Martins
+ */
 @Service
 public class ConsultaService {
     private ConsultaRepository consultaRepository;

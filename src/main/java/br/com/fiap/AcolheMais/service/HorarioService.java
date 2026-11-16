@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service do horário: confere a unidade, evita horário duplicado e faz o CRUD.
+ *
+ * @author Nicolas Martins
+ */
 @Service
 public class HorarioService {
     private HorarioRepository horarioRepository;

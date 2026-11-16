@@ -8,6 +8,11 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
+/**
+ * DTO de entrada do cadastro de cidadão, com as validações de Bean Validation.
+ *
+ * @author Nicolas Martins
+ */
 public class CidadaoEntradaDTO {
     @NotBlank(message = "Nome do cidadão é obrigatório")
     private String nmCidadao;

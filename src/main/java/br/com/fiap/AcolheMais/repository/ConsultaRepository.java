@@ -13,6 +13,11 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository da consulta, com o SQL em JDBC sobre ACM_CONSULTA e a checagem de horário ocupado.
+ *
+ * @author Nicolas Martins
+ */
 @Repository
 public class ConsultaRepository {
     private DataSource dataSource;

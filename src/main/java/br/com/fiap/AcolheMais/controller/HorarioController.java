@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Controller REST dos horários, com rotas aninhadas em /unidades e rotas próprias em /horarios.
+ *
+ * @author Nicolas Martins
+ */
 @RestController
 public class HorarioController {
     private HorarioService horarioService;

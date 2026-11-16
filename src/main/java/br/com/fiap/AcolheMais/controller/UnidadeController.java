@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Controller REST das rotas de /unidades: CRUD das unidades de saúde.
+ *
+ * @author Nicolas Martins
+ */
 @RestController
 @RequestMapping("/unidades")
 public class UnidadeController {

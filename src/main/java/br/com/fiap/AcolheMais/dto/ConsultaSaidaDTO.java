@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO de saída da consulta, com ids, nomes, datas, status e risco de falta para o front.
+ *
+ * @author Nicolas Martins
+ */
 public class ConsultaSaidaDTO {
     private int idConsulta, idCidadao, idHorario;
     private String nmUnidade, nmCidadao, dsStatus, dsCanalConfirmacao, dsRiscoFalta;

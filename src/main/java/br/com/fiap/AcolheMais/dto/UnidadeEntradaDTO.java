@@ -4,6 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * DTO de entrada da unidade de saúde, com tipo UBS ou UPA validado.
+ *
+ * @author Nicolas Martins
+ */
 public class UnidadeEntradaDTO {
     @NotBlank(message = "Nome da unidade é obrigatório")
     private String nmUnidade;

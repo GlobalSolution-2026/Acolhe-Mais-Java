@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Modelo que espelha a tabela ACM_CONSULTA do banco.
+ *
+ * @author Nicolas Martins
+ */
 public class Consulta {
     private int idConsulta, idHorario, idCidadao;
     private Integer idOrientacao;

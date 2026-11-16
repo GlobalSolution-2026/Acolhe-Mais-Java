@@ -7,6 +7,11 @@ import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO de entrada do horário, com data futura e duração validadas.
+ *
+ * @author Nicolas Martins
+ */
 public class HorarioEntradaDTO {
     @NotNull(message = "Data e hora são obrigatórias")
     @Future(message = "O horário deve estar no futuro")

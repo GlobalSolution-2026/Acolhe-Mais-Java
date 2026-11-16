@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.model;
 
 import java.time.LocalDate;
 
+/**
+ * Modelo que espelha a tabela ACM_CIDADAO do banco.
+ *
+ * @author Nicolas Martins
+ */
 public class Cidadao {
     private int idCidadao;
     private String nmCidadao, nrCns, nrCpf, dsSexo, nrCelular, nmContatoRecado, nrContatoRecado, nrCep, tpAcesso, dsSenhaHash;

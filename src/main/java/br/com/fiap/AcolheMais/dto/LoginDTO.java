@@ -2,6 +2,11 @@ package br.com.fiap.AcolheMais.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * DTO de entrada do login do cidadão com Cartão SUS e senha.
+ *
+ * @author Nicolas Martins
+ */
 public class LoginDTO {
     @NotBlank(message = "Informe o Cartão SUS")
     private String nrCns;

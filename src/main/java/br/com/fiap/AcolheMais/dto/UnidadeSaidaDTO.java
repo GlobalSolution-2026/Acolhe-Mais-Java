@@ -1,5 +1,10 @@
 package br.com.fiap.AcolheMais.dto;
 
+/**
+ * DTO de saída da unidade de saúde, devolvido pela API com o id.
+ *
+ * @author Nicolas Martins
+ */
 public class UnidadeSaidaDTO {
     private String nmUnidade, tpUnidade, dsEndereco, nrCep, nrTelefone;
     private int idUnidade;
