@@ -13,6 +13,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class AcolheMaisApplication {
 
+	// esse método fixa o fuso de Brasília e inicia a aplicação Spring Boot
 	public static void main(String[] args) {
 		// o Render roda em UTC; fixa o fuso de Brasilia para o "horario futuro" e as datas gravadas ficarem certos
 		TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));

@@ -25,6 +25,7 @@ public class HorarioRepository {
     public HorarioRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+    // esse método pega o próximo id da sequence e grava o novo horário no banco
     public Horario inserir(Horario horario){
         try (Connection conexao = dataSource.getConnection()){
 
@@ -51,6 +52,7 @@ public class HorarioRepository {
             throw new RuntimeException("Erro ao inserir horário", e);
         }
     }
+    // esse método busca todos os horários no banco
     public List<Horario> listar(){
         List<Horario> lista = new ArrayList<>();
         try(Connection conexao = dataSource.getConnection()){
@@ -70,6 +72,7 @@ public class HorarioRepository {
         }
     }
 
+    // esse método busca só os horários de uma unidade
     public List<Horario> listarPorUnidade(int idUnidade){
         List<Horario> lista = new ArrayList<>();
         try(Connection conexao = dataSource.getConnection()){
@@ -90,6 +93,7 @@ public class HorarioRepository {
         }
     }
 
+    // esse método busca um horário pelo id e devolve null se não achar
     public Horario buscarPorId(int id){
         try(Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM ACM_HORARIO WHERE id_horario = ?");
@@ -109,6 +113,7 @@ public class HorarioRepository {
         }
     }
 
+    // esse método altera a data, a hora e a duração do horário no banco
     public boolean atualizar(Horario horario){
         try(Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_HORARIO SET dt_horario=?, nr_duracao_min=? WHERE id_horario=?");
@@ -122,6 +127,7 @@ public class HorarioRepository {
         }
     }
 
+    // esse método apaga o horário do banco
     public boolean remover(int id){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM ACM_HORARIO WHERE id_horario = ?");
@@ -132,6 +138,7 @@ public class HorarioRepository {
         }
     }
 
+    // esse método confere se já existe um horário com a mesma data e hora nessa unidade
     public boolean existeHorario(int idUnidade, LocalDateTime dtHorario){
         try(Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT COUNT(*) FROM ACM_HORARIO WHERE id_unidade = ? AND dt_horario = ?");
@@ -145,6 +152,7 @@ public class HorarioRepository {
         }
     }
 
+    // esse método confere se a unidade tem pelo menos um horário
     public boolean unidadePossuiHorarios(int idUnidade){
         try(Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT COUNT(*) FROM ACM_HORARIO WHERE id_unidade = ?");

@@ -31,27 +31,32 @@ public class UnidadeController {
         this.unidadeService = unidadeService;
     }
 
+    // esse método cadastra uma nova unidade e devolve 201 com o endereço (Location) dela
     @PostMapping
     public ResponseEntity<UnidadeSaidaDTO> criar(@Valid @RequestBody UnidadeEntradaDTO dto){
         UnidadeSaidaDTO unidade = unidadeService.criar(dto);
         return ResponseEntity.created(URI.create("/unidades/" + unidade.getIdUnidade())).body(unidade);
     }
 
+    // esse método devolve a lista de todas as unidades
     @GetMapping
     public ResponseEntity<List<UnidadeSaidaDTO>> listar(){
         return ResponseEntity.ok(unidadeService.listar());
     }
 
+    // esse método devolve a unidade do id informado (404 se não existir)
     @GetMapping("/{id}")
     public ResponseEntity<UnidadeSaidaDTO> buscarPorId(@PathVariable int id){
         return ResponseEntity.ok(unidadeService.buscarPorId(id));
     }
 
+    // esse método altera os dados da unidade do id informado
     @PutMapping("/{id}")
     public ResponseEntity<UnidadeSaidaDTO> atualizar(@PathVariable int id, @Valid @RequestBody UnidadeEntradaDTO dto){
         return ResponseEntity.ok(unidadeService.atualizar(id, dto));
     }
 
+    // esse método apaga a unidade do id informado e devolve 204 (sem conteúdo)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable int id){
         unidadeService.remover(id);

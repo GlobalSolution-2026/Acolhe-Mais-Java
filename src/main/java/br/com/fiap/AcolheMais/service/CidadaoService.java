@@ -32,6 +32,7 @@ public class CidadaoService {
         this.cidadaoRepository = cidadaoRepository;
     }
 
+    // esse método converte os dados que chegaram (DTO) em um objeto Cidadao, já com a senha em hash
     private Cidadao paraModel(CidadaoEntradaDTO dto){
         Cidadao cidadao = new Cidadao();
         cidadao.setNmCidadao(dto.getNmCidadao());
@@ -50,6 +51,7 @@ public class CidadaoService {
         return cidadao;
     }
 
+    // esse método transforma a senha em um código SHA-256, para não guardar a senha pura no banco
     private String gerarHash(String senha){
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -60,20 +62,24 @@ public class CidadaoService {
         }
     }
 
+    // esse método converte o Cidadao em DTO de saída, sem a senha
     private CidadaoSaidaDTO paraSaida(Cidadao cidadao){
         return new CidadaoSaidaDTO(cidadao.getIdCidadao(), cidadao.getNmCidadao(), cidadao.getNrCns(), cidadao.getNrCpf(), cidadao.getDtNascimento(), cidadao.getDsSexo(), cidadao.getNrCelular(), cidadao.getNmContatoRecado(), cidadao.getNrContatoRecado(), cidadao.getNrCep(), cidadao.getTpAcesso());
     }
 
+    // esse método confere se um texto é nulo ou está em branco
     private boolean vazio(String texto){
         return texto == null || texto.isBlank();
     }
 
+    // esse método confere a regra de que a senha é obrigatória quando o acesso é por SENHA
     private void validar(CidadaoEntradaDTO dto){
         if ("SENHA".equals(dto.getTpAcesso()) && vazio(dto.getSenha())) {
             throw new DadoInvalidoException("A senha é obrigatória para acesso por senha");
         }
     }
 
+    // esse método devolve todos os cidadãos
     public List<CidadaoSaidaDTO> listar(){
         List<CidadaoSaidaDTO> lista = new ArrayList<>();
         for (Cidadao cidadao : cidadaoRepository.listar()) {
@@ -82,6 +88,7 @@ public class CidadaoService {
         return lista;
     }
 
+    // esse método busca o cidadão pelo id e lança 404 se não existir
     public CidadaoSaidaDTO buscarPorId(int id){
         Cidadao cidadao = cidadaoRepository.buscarPorId(id);
         if (cidadao == null) {
@@ -90,6 +97,7 @@ public class CidadaoService {
         return paraSaida(cidadao);
     }
 
+    // esse método busca o cidadão pelo Cartão SUS e lança 404 se não existir
     public CidadaoSaidaDTO buscarPorCns(String nrCns){
         Cidadao cidadao = cidadaoRepository.buscarPorCns(nrCns);
         if (cidadao == null) {
@@ -98,6 +106,7 @@ public class CidadaoService {
         return paraSaida(cidadao);
     }
 
+    // esse método cadastra o cidadão, depois de conferir se o CNS e o CPF já existem (409)
     public CidadaoSaidaDTO criar(CidadaoEntradaDTO dto){
         validar(dto);
         if (cidadaoRepository.existeCns(dto.getNrCns())) {
@@ -110,6 +119,7 @@ public class CidadaoService {
         return paraSaida(cidadao);
     }
 
+    // esse método altera só o contato e o CEP do cidadão e mantém o resto dos dados
     public CidadaoSaidaDTO atualizar(int id, CidadaoAtualizacaoDTO dto){
         Cidadao cidadao = cidadaoRepository.buscarPorId(id);
         if (cidadao == null) {
@@ -123,6 +133,7 @@ public class CidadaoService {
         return paraSaida(cidadao);
     }
 
+    // esse método compara o hash da senha digitada com o do banco e lança 401 se o CNS ou a senha estiverem errados
     public CidadaoSaidaDTO login(LoginDTO dto){
         Cidadao cidadao = cidadaoRepository.buscarPorCns(dto.getNrCns());
         if (cidadao == null || cidadao.getDsSenhaHash() == null || !cidadao.getDsSenhaHash().equals(gerarHash(dto.getSenha()))) {
@@ -131,6 +142,7 @@ public class CidadaoService {
         return paraSaida(cidadao);
     }
 
+    // esse método apaga o cidadão depois de conferir se ele existe
     public void remover(int id){
         buscarPorId(id);
         cidadaoRepository.remover(id);

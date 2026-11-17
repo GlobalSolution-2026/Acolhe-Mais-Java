@@ -34,37 +34,44 @@ public class CidadaoController {
         this.cidadaoService = cidadaoService;
     }
 
+    // esse método cadastra um novo cidadão e devolve 201 com o endereço (Location) dele
     @PostMapping
     public ResponseEntity<CidadaoSaidaDTO> criar(@Valid @RequestBody CidadaoEntradaDTO dto){
         CidadaoSaidaDTO cidadao = cidadaoService.criar(dto);
         return ResponseEntity.created(URI.create("/cidadaos/" + cidadao.getIdCidadao())).body(cidadao);
     }
 
+    // esse método devolve a lista de todos os cidadãos
     @GetMapping
     public ResponseEntity<List<CidadaoSaidaDTO>> listar(){
         return ResponseEntity.ok(cidadaoService.listar());
     }
 
+    // esse método busca um cidadão pelo número do Cartão SUS (404 se não achar)
     @GetMapping(params = "cns")
     public ResponseEntity<CidadaoSaidaDTO> buscarPorCns(@RequestParam String cns){
         return ResponseEntity.ok(cidadaoService.buscarPorCns(cns));
     }
 
+    // esse método confere o Cartão SUS e a senha e devolve o cidadão se estiverem certos (401 se estiverem errados)
     @PostMapping("/login")
     public ResponseEntity<CidadaoSaidaDTO> login(@Valid @RequestBody LoginDTO dto){
         return ResponseEntity.ok(cidadaoService.login(dto));
     }
 
+    // esse método devolve o cidadão do id informado (404 se não existir)
     @GetMapping("/{id}")
     public ResponseEntity<CidadaoSaidaDTO> buscarPorId(@PathVariable int id){
         return ResponseEntity.ok(cidadaoService.buscarPorId(id));
     }
 
+    // esse método altera só o contato e o CEP do cidadão do id informado
     @PutMapping("/{id}")
     public ResponseEntity<CidadaoSaidaDTO> atualizar(@PathVariable int id, @Valid @RequestBody CidadaoAtualizacaoDTO dto){
         return ResponseEntity.ok(cidadaoService.atualizar(id, dto));
     }
 
+    // esse método apaga o cidadão do id informado e devolve 204 (sem conteúdo)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable int id){
         cidadaoService.remover(id);

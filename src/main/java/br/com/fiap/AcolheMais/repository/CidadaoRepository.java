@@ -25,6 +25,7 @@ public class CidadaoRepository {
         this.dataSource = dataSource;
     }
 
+    // esse método pega o próximo id da sequence e grava o novo cidadão no banco
     public Cidadao inserir(Cidadao cidadao){
         try (Connection conexao = dataSource.getConnection()){
 
@@ -59,6 +60,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método busca todos os cidadãos no banco
     public List<Cidadao> listar(){
         List<Cidadao> lista = new ArrayList<>();
         try (Connection conexao = dataSource.getConnection()){
@@ -86,6 +88,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método busca um cidadão pelo id e devolve null se não achar
     public Cidadao buscarPorId(int id){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM ACM_CIDADAO WHERE id_cidadao = ?");
@@ -113,6 +116,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método busca um cidadão pelo Cartão SUS e devolve null se não achar
     public Cidadao buscarPorCns(String nrCns){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM ACM_CIDADAO WHERE nr_cns = ?");
@@ -140,6 +144,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método altera os dados do cidadão no banco
     public boolean atualizar(Cidadao cidadao){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_CIDADAO SET nm_cidadao=?, nr_cns=?, nr_cpf=?, dt_nascimento=?, ds_sexo=?, nr_celular=?, nm_contato_recado=?, nr_contato_recado=?, nr_cep=?, tp_acesso=?, ds_senha_hash=? WHERE id_cidadao=?");
@@ -162,6 +167,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método apaga o cidadão do banco
     public boolean remover(int id){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM ACM_CIDADAO WHERE id_cidadao = ?");
@@ -172,6 +178,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método confere se já existe um cidadão com esse Cartão SUS
 // cns = cartão nacional de saúde
     public boolean existeCns(String nrCns){
         try (Connection conexao = dataSource.getConnection()){
@@ -185,6 +192,7 @@ public class CidadaoRepository {
         }
     }
 
+    // esse método confere se já existe um cidadão com esse CPF
     public boolean existeCpf(String nrCpf){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT COUNT(*) FROM ACM_CIDADAO WHERE nr_cpf = ?");

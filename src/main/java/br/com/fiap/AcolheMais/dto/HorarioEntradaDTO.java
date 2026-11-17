@@ -24,18 +24,22 @@ public class HorarioEntradaDTO {
     public HorarioEntradaDTO() {
     }
 
+    // esse método devolve a data e hora do horário
     public LocalDateTime getDtHorario() {
         return dtHorario;
     }
 
+    // esse método altera a data e hora do horário
     public void setDtHorario(LocalDateTime dtHorario) {
         this.dtHorario = dtHorario;
     }
 
+    // esse método devolve a duração em minutos
     public int getNrDuracaoMinuto() {
         return nrDuracaoMinuto;
     }
 
+    // esse método altera a duração em minutos
     public void setNrDuracaoMinuto(int nrDuracaoMinuto) {
         this.nrDuracaoMinuto = nrDuracaoMinuto;
     }

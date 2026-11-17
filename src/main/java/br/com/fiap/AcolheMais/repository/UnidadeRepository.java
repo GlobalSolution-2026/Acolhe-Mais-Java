@@ -23,6 +23,7 @@ public class UnidadeRepository {
     public UnidadeRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+    // esse método pega o próximo id da sequence e grava a nova unidade no banco
     public Unidade inserir(Unidade unidade){
         try (Connection conexao = dataSource.getConnection()){
 
@@ -51,6 +52,7 @@ public class UnidadeRepository {
         }
     }
 
+    // esse método busca todas as unidades no banco
     public List<Unidade> listar(){
         List<Unidade> lista = new ArrayList<>();
         try (Connection conexao = dataSource.getConnection()){
@@ -72,6 +74,7 @@ public class UnidadeRepository {
         }
     }
 
+    // esse método busca uma unidade pelo id e devolve null se não achar
     public Unidade buscarPorId(int id){
         try(Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM ACM_UNIDADE WHERE id_unidade = ?");
@@ -93,6 +96,7 @@ public class UnidadeRepository {
         }
     }
 
+    // esse método altera os dados da unidade no banco
     public boolean atualizar(Unidade unidade){
         try(Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_UNIDADE SET nm_unidade=?, tp_unidade=?, ds_endereco=?, nr_cep=?, nr_telefone=? WHERE id_unidade=?");
@@ -109,6 +113,7 @@ public class UnidadeRepository {
         }
     }
 
+    // esse método apaga a unidade do banco
     public boolean remover(int id){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM ACM_UNIDADE WHERE id_unidade = ?");

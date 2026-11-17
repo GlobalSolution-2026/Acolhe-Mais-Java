@@ -17,18 +17,22 @@ public class LoginDTO {
     public LoginDTO() {
     }
 
+    // esse método devolve o número do Cartão SUS (CNS)
     public String getNrCns() {
         return nrCns;
     }
 
+    // esse método altera o número do Cartão SUS (CNS)
     public void setNrCns(String nrCns) {
         this.nrCns = nrCns;
     }
 
+    // esse método devolve a senha
     public String getSenha() {
         return senha;
     }
 
+    // esse método altera a senha
     public void setSenha(String senha) {
         this.senha = senha;
     }

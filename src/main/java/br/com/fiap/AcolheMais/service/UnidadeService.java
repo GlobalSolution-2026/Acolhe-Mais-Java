@@ -27,6 +27,7 @@ public class UnidadeService {
         this.horarioRepository = horarioRepository;
     }
 
+    // esse método converte os dados que chegaram (DTO) em um objeto Unidade
     private Unidade paraModel(UnidadeEntradaDTO dto){
         Unidade unidade = new Unidade();
         unidade.setNmUnidade(dto.getNmUnidade());
@@ -37,10 +38,12 @@ public class UnidadeService {
         return unidade;
     }
 
+    // esse método converte a Unidade em DTO de saída
     private UnidadeSaidaDTO paraSaida(Unidade unidade){
         return new UnidadeSaidaDTO(unidade.getNmUnidade(), unidade.getTpUnidade(), unidade.getDsEndereco(), unidade.getNrCep(), unidade.getNrTelefone(), unidade.getIdUnidade());
     }
 
+    // esse método devolve todas as unidades
     public List<UnidadeSaidaDTO> listar(){
         List<UnidadeSaidaDTO> lista = new ArrayList<>();
         for (Unidade unidade : unidadeRepository.listar()) {
@@ -49,6 +52,7 @@ public class UnidadeService {
         return lista;
     }
 
+    // esse método busca a unidade pelo id e lança 404 se não existir
     public UnidadeSaidaDTO buscarPorId(int id){
         Unidade unidade = unidadeRepository.buscarPorId(id);
         if (unidade == null) {
@@ -57,11 +61,13 @@ public class UnidadeService {
         return paraSaida(unidade);
     }
 
+    // esse método cadastra uma nova unidade
     public UnidadeSaidaDTO criar(UnidadeEntradaDTO dto){
         Unidade unidade = unidadeRepository.inserir(paraModel(dto));
         return paraSaida(unidade);
     }
 
+    // esse método altera os dados da unidade depois de conferir se ela existe
     public UnidadeSaidaDTO atualizar(int id, UnidadeEntradaDTO dto){
         buscarPorId(id);
         Unidade unidade = paraModel(dto);
@@ -70,6 +76,7 @@ public class UnidadeService {
         return paraSaida(unidade);
     }
 
+    // esse método apaga a unidade, mas lança 409 se ela ainda tiver horários
     public void remover(int id){
         buscarPorId(id);
         if (horarioRepository.unidadePossuiHorarios(id)) {

@@ -26,6 +26,7 @@ public class ConsultaRepository {
         this.dataSource = dataSource;
     }
 
+    // esse método pega o próximo id da sequence e grava a nova consulta no banco
     public Consulta inserir(Consulta consulta){
         try (Connection conexao = dataSource.getConnection()){
 
@@ -76,6 +77,7 @@ public class ConsultaRepository {
         }
     }
 
+    // esse método busca todas as consultas no banco
     public List<Consulta> listar(){
         List<Consulta> lista = new ArrayList<>();
         try (Connection conexao = dataSource.getConnection()){
@@ -116,6 +118,7 @@ public class ConsultaRepository {
         }
     }
 
+    // esse método busca uma consulta pelo id e devolve null se não achar
     public Consulta buscarPorId(int id){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT * FROM ACM_CONSULTA WHERE id_consulta = ?");
@@ -156,6 +159,7 @@ public class ConsultaRepository {
         }
     }
 
+    // esse método altera os dados da consulta no banco
     public boolean atualizar(Consulta consulta){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("UPDATE ACM_CONSULTA SET id_horario=?, id_cidadao=?, id_orientacao=?, dt_agendamento=?, dt_confirmacao=?, ds_canal_confirmacao=?, ds_status=?, vl_prob_falta=?, ds_risco_falta=? WHERE id_consulta=?");
@@ -194,6 +198,7 @@ public class ConsultaRepository {
         }
     }
 
+    // esse método apaga a consulta do banco
     public boolean remover(int id){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("DELETE FROM ACM_CONSULTA WHERE id_consulta = ?");
@@ -204,6 +209,7 @@ public class ConsultaRepository {
         }
     }
 
+    // esse método confere se o horário já tem uma consulta AGENDADA ou CONFIRMADA
     public boolean horarioOcupado(int idHorario){
         try (Connection conexao = dataSource.getConnection()){
             PreparedStatement preparedStatement = conexao.prepareStatement("SELECT COUNT(*) FROM ACM_CONSULTA WHERE id_horario = ? AND ds_status IN ('AGENDADA', 'CONFIRMADA')");

@@ -39,6 +39,7 @@ public class ConsultaService {
         this.cidadaoRepository = cidadaoRepository;
     }
 
+    // esse método monta o DTO de saída juntando os dados do horário, da unidade e do cidadão
     private ConsultaSaidaDTO paraSaida(Consulta consulta){
         Horario horario = horarioRepository.buscarPorId(consulta.getIdHorario());
         Unidade unidade = unidadeRepository.buscarPorId(horario.getIdUnidade());
@@ -60,6 +61,7 @@ public class ConsultaService {
         return saida;
     }
 
+    // esse método confere se o horário e o cidadão existem e lança 404 se algum não existir
     private void conferirHorarioECidadao(ConsultaEntradaDTO dto){
         if (horarioRepository.buscarPorId(dto.getIdHorario()) == null) {
             throw new RecursoNaoEncontradoException("Horário não encontrado");
@@ -69,10 +71,12 @@ public class ConsultaService {
         }
     }
 
+    // esse método diz se o status é AGENDADA ou CONFIRMADA, que são os que ocupam o horário
     private boolean statusAtivo(String status){
         return "AGENDADA".equals(status) || "CONFIRMADA".equals(status);
     }
 
+    // esse método devolve todas as consultas
     public List<ConsultaSaidaDTO> listar(){
         List<ConsultaSaidaDTO> lista = new ArrayList<>();
         for (Consulta consulta : consultaRepository.listar()) {
@@ -81,6 +85,7 @@ public class ConsultaService {
         return lista;
     }
 
+    // esse método busca a consulta pelo id e lança 404 se não existir
     public ConsultaSaidaDTO buscarPorId(int id){
         Consulta consulta = consultaRepository.buscarPorId(id);
         if (consulta == null) {
@@ -89,6 +94,7 @@ public class ConsultaService {
         return paraSaida(consulta);
     }
 
+    // esse método agenda a consulta com status AGENDADA, se o horário existir e estiver livre (409 se estiver ocupado)
     public synchronized ConsultaSaidaDTO criar(ConsultaEntradaDTO dto){
         conferirHorarioECidadao(dto);
         if (consultaRepository.horarioOcupado(dto.getIdHorario())) {
@@ -105,6 +111,7 @@ public class ConsultaService {
         return paraSaida(consultaRepository.inserir(consulta));
     }
 
+    // esse método troca o horário ou o cidadão da consulta, conferindo se o novo horário está livre
     public synchronized ConsultaSaidaDTO atualizar(int id, ConsultaEntradaDTO dto){
         Consulta atual = consultaRepository.buscarPorId(id);
         if (atual == null) {
@@ -120,6 +127,7 @@ public class ConsultaService {
         return paraSaida(atual);
     }
 
+    // esse método muda o status da consulta e, se for CONFIRMADA, grava a data e o canal da confirmação
     public synchronized ConsultaSaidaDTO mudarStatus(int id, StatusConsultaDTO dto){
         Consulta consulta = consultaRepository.buscarPorId(id);
         if (consulta == null) {
@@ -145,6 +153,7 @@ public class ConsultaService {
         return paraSaida(consulta);
     }
 
+    // esse método apaga a consulta depois de conferir se ela existe
     public void remover(int id){
         buscarPorId(id);
         consultaRepository.remover(id);

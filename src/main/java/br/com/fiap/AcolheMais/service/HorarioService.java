@@ -30,6 +30,7 @@ public class HorarioService {
         this.consultaRepository = consultaRepository;
     }
 
+    // esse método converte os dados que chegaram (DTO) em um objeto Horario
     private Horario paraModel(HorarioEntradaDTO dto){
         Horario horario = new Horario();
         horario.setDtHorario(dto.getDtHorario());
@@ -37,18 +38,21 @@ public class HorarioService {
         return horario;
     }
 
+    // esse método converte o Horario em DTO de saída e marca se ele já está ocupado por uma consulta
     private HorarioSaidaDTO paraSaida(Horario horario){
         HorarioSaidaDTO saida = new HorarioSaidaDTO(horario.getIdHorario(), horario.getIdUnidade(), horario.getDtHorario(), horario.getNrDuracaoMinuto());
         saida.setFlOcupado(consultaRepository.horarioOcupado(horario.getIdHorario()));
         return saida;
     }
 
+    // esse método confere se a unidade existe e lança 404 se não existir
     private void conferirUnidade(int idUnidade){
         if (unidadeRepository.buscarPorId(idUnidade) == null) {
             throw new RecursoNaoEncontradoException("Unidade não encontrada");
         }
     }
 
+    // esse método devolve todos os horários de uma unidade (404 se a unidade não existir)
     public List<HorarioSaidaDTO> listarPorUnidade(int idUnidade){
         conferirUnidade(idUnidade);
         List<HorarioSaidaDTO> lista = new ArrayList<>();
@@ -58,6 +62,7 @@ public class HorarioService {
         return lista;
     }
 
+    // esse método cadastra o horário na unidade, e lança 409 se já existir um horário igual nela
     public HorarioSaidaDTO criar(int idUnidade, HorarioEntradaDTO dto){
         conferirUnidade(idUnidade);
         if (horarioRepository.existeHorario(idUnidade, dto.getDtHorario())) {
@@ -68,6 +73,7 @@ public class HorarioService {
         return paraSaida(horarioRepository.inserir(horario));
     }
 
+    // esse método busca o horário pelo id e lança 404 se não existir
     public HorarioSaidaDTO buscarPorId(int id){
         Horario horario = horarioRepository.buscarPorId(id);
         if (horario == null) {
@@ -76,6 +82,7 @@ public class HorarioService {
         return paraSaida(horario);
     }
 
+    // esse método altera a data, a hora e a duração do horário, evitando que fique igual a outro da mesma unidade (409)
     public HorarioSaidaDTO atualizar(int id, HorarioEntradaDTO dto){
         Horario atual = horarioRepository.buscarPorId(id);
         if (atual == null) {
@@ -91,6 +98,7 @@ public class HorarioService {
         return paraSaida(horario);
     }
 
+    // esse método apaga o horário depois de conferir se ele existe
     public void remover(int id){
         buscarPorId(id);
         horarioRepository.remover(id);

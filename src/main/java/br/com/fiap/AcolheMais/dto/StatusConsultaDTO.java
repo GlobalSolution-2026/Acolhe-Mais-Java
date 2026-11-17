@@ -19,18 +19,22 @@ public class StatusConsultaDTO {
     public StatusConsultaDTO() {
     }
 
+    // esse método devolve o status da consulta
     public String getDsStatus() {
         return dsStatus;
     }
 
+    // esse método altera o status da consulta
     public void setDsStatus(String dsStatus) {
         this.dsStatus = dsStatus;
     }
 
+    // esse método devolve o canal da confirmação (APP, TELEFONE ou PRESENCIAL)
     public String getDsCanalConfirmacao() {
         return dsCanalConfirmacao;
     }
 
+    // esse método altera o canal da confirmação (APP, TELEFONE ou PRESENCIAL)
     public void setDsCanalConfirmacao(String dsCanalConfirmacao) {
         this.dsCanalConfirmacao = dsCanalConfirmacao;
     }
