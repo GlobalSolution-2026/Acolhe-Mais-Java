@@ -109,7 +109,15 @@ public class CidadaoService {
     // esse método cadastra o cidadão, depois de conferir se o CNS e o CPF já existem (409)
     public CidadaoSaidaDTO criar(CidadaoEntradaDTO dto){
         validar(dto);
-        if (cidadaoRepository.existeCns(dto.getNrCns())) {
+        Cidadao existente = cidadaoRepository.buscarPorCns(dto.getNrCns());
+        if (existente != null) {
+            // RN21: cadastro do balcão (sem senha) vira conta com senha, mantendo o id e as consultas
+            if ("BALCAO".equals(existente.getTpAcesso()) && "SENHA".equals(dto.getTpAcesso())) {
+                Cidadao conta = paraModel(dto);
+                conta.setIdCidadao(existente.getIdCidadao());
+                cidadaoRepository.atualizar(conta);
+                return paraSaida(conta);
+            }
             throw new RegraNegocioException("Já existe um cidadão com este CNS");
         }
         if (!vazio(dto.getNrCpf()) && cidadaoRepository.existeCpf(dto.getNrCpf())) {
