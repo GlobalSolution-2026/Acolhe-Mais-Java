@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Pattern;
  * @author Nicolas Martins
  */
 public class CidadaoAtualizacaoDTO {
-    @Pattern(regexp = "\\d{10,11}", message = "Informe o celular com DDD (só números)")
+    @Pattern(regexp = "(\\d{10,11})?", message = "Informe o celular com DDD (só números)")
     private String nrCelular;
 
     private String nmContatoRecado;
