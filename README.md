@@ -24,7 +24,7 @@ O Acolhe+ orienta o cidadão sobre onde buscar atendimento no SUS. Nos casos de 
 ## Links
 
 - **API publicada (Render):** https://acolhe-mais-java.onrender.com
-- **Vídeo de demonstração:** [LINK DO VÍDEO]
+- **Vídeo de demonstração:** https://youtu.be/WliFxXppgn4
 - **Front-end:** https://github.com/GlobalSolution-2026/acolhe-mais-front
 
 > A API está no plano gratuito do Render. Depois de um tempo sem uso, ela "dorme", e a primeira requisição pode levar cerca de 1 minuto para responder. As seguintes respondem normalmente.
